@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corte de Barras — Guia do Projeto</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --border: #334155;
+    --txt: #e2e8f0;
+    --muted: #94a3b8;
+    --orange: #ea580c;
+    --orange-dim: #ea580c33;
+    --green: #22c55e;
+    --blue: #3b82f6;
+    --purple: #a855f7;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--txt);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 2rem; color: var(--orange); margin-bottom: 0.25rem; }
+  .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 0.95rem; }
+  h2 {
+    font-size: 1.35rem;
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--orange-dim);
+  }
+  h3 { font-size: 1.1rem; margin: 1.5rem 0 0.5rem; color: var(--orange); }
+
+  .tabs {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { background: var(--orange-dim); color: var(--txt); }
+  .tab-btn.active {
+    background: var(--orange);
+    color: #fff;
+    border-color: var(--orange);
+  }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .card h3 { margin-top: 0; }
+
+  code {
+    background: #1a1a2e;
+    color: #f1c40f;
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.85rem;
+  }
+  pre {
+    background: #1a1a2e;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    overflow-x: auto;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    margin: 0.75rem 0;
+  }
+
+  .step-list { list-style: none; counter-reset: step; }
+  .step-list li {
+    counter-increment: step;
+    padding: 1rem 1rem 1rem 3rem;
+    position: relative;
+    border-left: 2px solid var(--orange-dim);
+    margin-bottom: 0.5rem;
+  }
+  .step-list li::before {
+    content: counter(step);
+    position: absolute;
+    left: -0.75rem;
+    top: 1rem;
+    background: var(--orange);
+    color: #fff;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    background: #000;
+    margin: 1rem 0;
+  }
+  .video-container iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: 0;
+  }
+  .video-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    background: var(--card);
+    border: 2px dashed var(--border);
+    border-radius: 0.75rem;
+    color: var(--muted);
+    gap: 1rem;
+    text-align: center;
+    padding: 2rem;
+  }
+  .video-placeholder svg { width: 64px; height: 64px; opacity: 0.5; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+  }
+  th { background: var(--orange-dim); color: var(--orange); font-weight: 600; }
+
+  .tag {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .tag-green { background: #22c55e33; color: #22c55e; }
+  .tag-red { background: #ef444433; color: #ef4444; }
+  .tag-blue { background: #3b82f633; color: #3b82f6; }
+  .tag-orange { background: var(--orange-dim); color: var(--orange); }
+
+  a { color: var(--orange); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .checklist { list-style: none; }
+  .checklist li::before { content: "✓ "; color: var(--green); font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h1>🧊 Corte de Barras</h1>
+<p class="subtitle">
+  Análise Comparativa de Algoritmos — Disciplina de Análise de Algoritmos, IFCE<br>
+  <span style="color: var(--muted);">Tema 7.1</span>
+</p>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab(event, 'passo-a-passo')">📋 Passo a Passo</button>
+  <button class="tab-btn" onclick="switchTab(event, 'algoritmos')">🧮 Algoritmos</button>
+  <button class="tab-btn" onclick="switchTab(event, 'resultados')">📊 Resultados</button>
+  <button class="tab-btn" onclick="switchTab(event, 'video')">🎬 Vídeo</button>
+  <button class="tab-btn" onclick="switchTab(event, 'estrutura')">📁 Estrutura</button>
+</div>
+
+<div id="passo-a-passo" class="tab-content active">
+  <h2>Passo a Passo do Projeto</h2>
+  <p style="color: var(--muted); margin-bottom: 1.5rem;">
+    Aqui está tudo que foi feito, na ordem em que foi feito, para você entender o experimento completo.
+  </p>
+
+  <h3>📌 Resumo do Problema</h3>
+  <p>
+    O problema de <strong>Corte de Barras</strong> (Rod Cutting) é clássico em algoritmos:
+  </p>
+  <div class="card">
+    <p>Dada uma barra de comprimento <strong>n</strong> e uma tabela de preços <strong>p[i]</strong> para cada pedaço de tamanho <strong>i</strong>, encontre a melhor forma de cortar a barra para <strong>maximizar a receita total</strong>.</p>
+  </div>
+
+  <ol class="step-list">
+    <li>
+      <strong>Criação do repositório GitHub</strong><br>
+      O repositório <code>DerickBessa/corte-de-barras</code> foi criado publicamente para versionar e entregar o projeto.
+    </li>
+    <li>
+      <strong>Implementação dos 3 algoritmos</strong> (<code>src/algorithms.py</code>)<br>
+      Três abordagens diferentes foram implementadas para resolver o mesmo problema:
+      <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+        <li><strong>Guloso</strong> — escolhe localmente o melhor pedaço (maior preço por unidade de tamanho). Rápido, mas <span class="tag tag-red">não garante o ótimo</span>.</li>
+        <li><strong>Força Bruta</strong> — testa recursivamente <em>todas</em> as formas de cortar a barra. <span class="tag tag-red">Exponencial O(2ⁿ)</span> — inviável para n &gt; 25.</li>
+        <li><strong>PD (Memoização)</strong> — recursivo com memoização, O(n²). <span class="tag tag-green">Garante o ótimo</span> e retorna os cortes.</li>
+      </ul>
+    </li>
+    <li>
+      <strong>Geração de entradas de teste</strong> (<code>src/generators.py</code>)<br>
+      Função <code>gerar_tabela_precos(n, seed)</code> cria tabelas de preço com ruído aleatório para simular cenários realistas e dar chance do guloso errar.
+    </li>
+    <li>
+      <strong>Verificação de corretude</strong> (<code>src/verify.py</code>)<br>
+      Duas verificações cruciais:<br>
+      <ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: lower-alpha;">
+        <li><strong>FB vs PD</strong> — nos tamanhos pequenos (n = 5 a 21), a Força Bruta e a PD devem retornar o mesmo valor máximo. Isso valida que a PD está correta.</li>
+        <li><strong>Guloso vs PD</strong> — em todos os tamanhos, a PD deve ser sempre &ge; que o Guloso. A diferença média e o desvio padrão são calculados e reportados.</li>
+      </ol>
+    </li>
+    <li>
+      <strong>Exemplo concreto onde o Guloso erra</strong><br>
+      Uma tabela de preços específica foi criada para demonstrar visualmente que o Guloso pode falhar. No exemplo, o Guloso obtém um valor menor que a PD.
+    </li>
+    <li>
+      <strong>Benchmark de tempo</strong> (<code>src/benchmark.py</code>)<br>
+      Para cada tamanho de barra, o experimento gera <strong>10 tabelas de preço distintas</strong>, executa cada algoritmo nessas 10 entradas, e tira a <strong>média do tempo</strong> e o <strong>desvio padrão</strong>. Os resultados são salvos em <code>results/tempos.csv</code>.
+    </li>
+    <li>
+      <strong>Geração de gráficos</strong><br>
+      Três gráficos são gerados automaticamente:
+      <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+        <li><strong>Gráfico 1:</strong> Os 3 algoritmos juntos (tamanhos pequenos) — mostra o crescimento exponencial da FB</li>
+        <li><strong>Gráfico 2:</strong> Guloso vs PD (tamanhos grandes) — mostra O(n) vs O(n²)</li>
+        <li><strong>Gráfico 3:</strong> Diferença Guloso vs PD (barra de erro) — mostra o quanto o guloso perde</li>
+      </ul>
+    </li>
+    <li>
+      <strong>Relatório no Jupyter Notebook</strong> (<code>notebooks/analise.ipynb</code>)<br>
+      Discussão completa dos resultados com texto explicativo, código executável e os gráficos embutidos.
+    </li>
+    <li>
+      <strong>Esta página HTML</strong><br>
+      Documentação visual do experimento com abas para navegação, incluindo o guia do vídeo de apresentação.
+    </li>
+  </ol>
+</div>
+
+<div id="algoritmos" class="tab-content">
+  <h2>Os 3 Algoritmos em Detalhe</h2>
+
+  <div class="card">
+    <h3>1. Guloso Ingênuo — <span class="tag tag-orange">O(n²) na prática</span></h3>
+    <p style="margin-bottom: 0.5rem;">A cada passo, olha o tamanho restante e escolhe o pedaço com <strong>melhor preço por unidade de tamanho</strong>.</p>
+    <pre>def corte_guloso(n, precos):
+    restante = n
+    cortes = []
+    while restante &gt; 0:
+        melhor_razao = -1
+        melhor_tam = 1
+        for t in range(1, restante + 1):
+            razao = precos[t-1] / t
+            if razao &gt; melhor_razao:
+                melhor_razao = razao
+                melhor_tam = t
+        cortes.append(melhor_tam)
+        restante -= melhor_tam
+    return sum(precos[t-1] for t in cortes), cortes</pre>
+    <p><span class="tag tag-red">⚠ Não garante o ótimo</span> — decisões locais podem levar a um resultado sub-ótimo.</p>
+  </div>
+
+  <div class="card">
+    <h3>2. Força Bruta — <span class="tag tag-red">O(2ⁿ)</span></h3>
+    <p style="margin-bottom: 0.5rem;">Testa recursivamente <strong>todas as partições possíveis</strong> da barra. Para n=20, são ~500 mil combinações; para n=30, mais de 500 milhões.</p>
+    <pre>def corte_forca_bruta(n, precos):
+    if n == 0: return 0, []
+    melhor_valor = -inf
+    melhor_cortes = []
+    for i in range(1, n + 1):
+        v_resto, c_resto = corte_forca_bruta(n - i, precos)
+        valor = precos[i-1] + v_resto
+        if valor &gt; melhor_valor:
+            melhor_valor = valor
+            melhor_cortes = [i] + c_resto
+    return melhor_valor, melhor_cortes</pre>
+    <p><span class="tag tag-red">⚠ Inviável para n &gt; 25</span> — usada apenas como referencial teórico e verificação de corretude.</p>
+  </div>
+
+  <div class="card">
+    <h3>3. PD com Memoização — <span class="tag tag-green">O(n²) — SOLUÇÃO RECOMENDADA</span></h3>
+    <p style="margin-bottom: 0.5rem;">Recursivo com memoização: cada subproblema é resolvido uma única vez e reaproveitado. Além do valor máximo, guarda o <strong>primeiro corte escolhido</strong> para reconstruir a solução.</p>
+    <pre>def corte_pd_memo(n, precos):
+    memo_valor = {}
+    memo_corte = {}
+
+    def f(m):
+        if m == 0: return 0
+        if m in memo_valor: return memo_valor[m]
+        melhor = -inf
+        for i in range(1, m + 1):
+            valor = precos[i-1] + f(m - i)
+            if valor &gt; melhor:
+                melhor = valor
+                melhor_primeiro = i
+        memo_valor[m] = melhor
+        memo_corte[m] = melhor_primeiro
+        return melhor
+
+    valor_total = f(n)
+    cortes = []
+    resto = n
+    while resto &gt; 0:
+        c = memo_corte[resto]
+        cortes.append(c)
+        resto -= c
+    return valor_total, cortes</pre>
+    <p><span class="tag tag-green">✓ Garante o ótimo</span> — solução exata com complexidade polinomial.</p>
+  </div>
+</div>
+
+<div id="resultados" class="tab-content">
+  <h2>Resultados do Experimento</h2>
+
+  <h3>Verificação de Corretude</h3>
+  <table>
+    <tr><th>Verificação</th><th>Resultado</th></tr>
+    <tr><td>FB vs PD (n = 5 a 21)</td><td><span class="tag tag-green">✓ Todos os valores coincidem</span></td></tr>
+    <tr><td>Guloso vs PD (todos os n)</td><td><span class="tag tag-orange">PD sempre ≥ Guloso</span> (diferença variável)</td></tr>
+  </table>
+
+  <h3>Complexidade Observada</h3>
+  <table>
+    <tr><th>Algoritmo</th><th>Complexidade Teórica</th><th>Comportamento nos Testes</th></tr>
+    <tr><td>Guloso</td><td>O(n²)</td><td>Linear na prática (~0.001s para n=500)</td></tr>
+    <tr><td>Força Bruta</td><td>O(2ⁿ)</td><td>Exponencial — inviável para n &gt; 25</td></tr>
+    <tr><td>PD (Memo)</td><td>O(n²)</td><td>Quadrático — ~0.05s para n=500</td></tr>
+  </table>
+
+  <h3>Gráficos Gerados</h3>
+  <p>Os gráficos abaixo foram gerados automaticamente pelo <code>benchmark.py</code> e estão salvos em <code>results/graficos/</code>.</p>
+
+  <div style="display: flex; flex-direction: column; gap: 1rem; margin: 1rem 0;">
+    <div class="card">
+      <h3>Gráfico 1: Pequeno — Guloso vs Força Bruta vs PD</h3>
+      <p style="font-size: 0.85rem; color: var(--muted);">Mostra o crescimento exponencial da Força Bruta comparado aos outros algoritmos.</p>
+      <div style="background: #1a1a2e; border-radius: 0.5rem; padding: 1rem; text-align: center; color: var(--muted);">
+        [Gr·fico gerado em results/graficos/comparacao_completa.png]
+      </div>
+    </div>
+    <div class="card">
+      <h3>Gráfico 2: Grande — Guloso vs PD</h3>
+      <p style="font-size: 0.85rem; color: var(--muted);">Comparação direta entre Guloso (mais rápido) e PD (mais preciso) em escala maior.</p>
+      <div style="background: #1a1a2e; border-radius: 0.5rem; padding: 1rem; text-align: center; color: var(--muted);">
+        [Gr·fico gerado em results/graficos/comparacao_completa.png]
+      </div>
+    </div>
+    <div class="card">
+      <h3>Gráfico 3: Diferença Guloso vs PD</h3>
+      <p style="font-size: 0.85rem; color: var(--muted);">Barras mostrando o quanto o Guloso perde em relação ao valor ótimo da PD.</p>
+      <div style="background: #1a1a2e; border-radius: 0.5rem; padding: 1rem; text-align: center; color: var(--muted);">
+        [Gr·fico gerado em results/graficos/comparacao_completa.png]
+      </div>
+    </div>
+  </div>
+
+  <h3>Conclusão Principal</h3>
+  <div class="card" style="border-color: var(--orange);">
+    <p>A <strong>Programação Dinâmica com memoização</strong> é a melhor abordagem para o problema de Corte de Barras: solução <strong>exata</strong>, complexidade <strong>O(n²)</strong>, escala para entradas grandes. O Guloso é mais rápido mas não garante o ótimo. A Força Bruta é apenas um conceito didático.</p>
+  </div>
+</div>
+
+<div id="video" class="tab-content">
+  <h2>Guia do Vídeo de Apresentação</h2>
+  <p style="color: var(--muted); margin-bottom: 1rem;">
+    Esta seção serve como roteiro/guia para a gravação do vídeo de apresentação do experimento.
+  </p>
+
+  <div class="video-placeholder">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
+    </svg>
+    <div>
+      <p style="font-weight: 600; font-size: 1.1rem;">Vídeo de Apresentação</p>
+      <p>Após gravar e enviar para o YouTube, cole o link em <code>video/link.txt</code></p>
+      <p style="font-size: 0.85rem;">⬇ Abaixo está o roteiro sugerido para a gravação</p>
+    </div>
+  </div>
+
+  <h3>🎬 Roteiro para o Vídeo (5-10 minutos)</h3>
+
+  <div class="card">
+    <h3>1. Introdução (30s — 1min)</h3>
+    <p>Apresente-se e explique o objetivo do experimento:</p>
+    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+      <li>"Este é um experimento para a disciplina de Análise de Algoritmos, tema Corte de Barras."</li>
+      <li>"O objetivo é implementar 3 algoritmos, verificar a corretude, medir o tempo de execução e comparar os resultados."</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>2. O Problema (1min)</h3>
+    <p>Explique o problema de Corte de Barras:</p>
+    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+      <li>"Temos uma barra de comprimento n e uma tabela de preços para cada pedaço."</li>
+      <li>"Queremos maximizar a receita total cortando a barra em pedaços menores."</li>
+      <li>Dê um exemplo pequeno (n=4) mostrando a tabela de preços e a solução ótima.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>3. Os 3 Algoritmos (2-3min)</h3>
+    <p>Mostre cada algoritmo brevemente (pode mostrar o código na tela):</p>
+    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+      <li><strong>Guloso:</strong> "Escolhe o pedaço com melhor preço por unidade. Rápido, mas não é ótimo."</li>
+      <li><strong>Força Bruta:</strong> "Testa todas as possibilidades. Exponencial — só funciona para n pequeno."</li>
+      <li><strong>PD com Memoização:</strong> "Recursivo com memoização. O(n²), garante o ótimo."</li>
+      <li>Destaque que a PD retorna não só o valor máximo, mas também a lista de cortes.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>4. Verificação de Corretude (1-2min)</h3>
+    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+      <li>"Primeiro, verificamos se a PD está correta comparando com a Força Bruta nos tamanhos pequenos (n=5 a 21)."</li>
+      <li>"Em todos os casos, os valores coincidiram — a PD está correta."</li>
+      <li>"Depois, comparamos Guloso vs PD. A PD sempre ≥ Guloso."</li>
+      <li>"Calculamos a média e desvio padrão da diferença."</li>
+      <li>Mostre o <strong>exemplo concreto</strong> onde o Guloso erra (a tabela de preços de 10 posições).</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>5. Benchmark e Gráficos (2min)</h3>
+    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+      <li>"Para cada tamanho, geramos 10 tabelas de preço diferentes e medimos a média de tempo."</li>
+      <li>"Mostre os 3 gráficos explicando cada um."</li>
+      <li>"Aponte o crescimento exponencial da FB, o desempenho linear do Guloso e o quadrático da PD."</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>6. Conclusão (30s — 1min)</h3>
+    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+      <li>"A PD é a melhor escolha: exata e escalável."</li>
+      <li>"O Guloso serve para aproximações rápidas."</li>
+      <li>"A Força Bruta é apenas didática."</li>
+      <li>"Repositório: <a href=\"https://github.com/DerickBessa/corte-de-barras\" target=\"_blank\">github.com/DerickBessa/corte-de-barras</a>"</li>
+    </ul>
+  </div>
+
+  <h3>✅ Checklist para o Vídeo</h3>
+  <ul class="checklist" style="margin-left: 1.5rem;">
+    <li>Mostrar o repositório no GitHub</li>
+    <li>Explicar o problema com um exemplo pequeno</li>
+    <li>Mostrar o código dos 3 algoritmos</li>
+    <li>Rodar a verificação de corretude (<code>python src/verify.py</code>)</li>
+    <li>Mostrar o exemplo onde o guloso erra</li>
+    <li>Rodar o benchmark (<code>python src/benchmark.py</code>)</li>
+    <li>Mostrar os gráficos gerados</li>
+    <li>Apresentar a conclusão</li>
+    <li>Enviar para o YouTube e colocar o link em <code>video/link.txt</code></li>
+  </ul>
+</div>
+
+<div id="estrutura" class="tab-content">
+  <h2>Estrutura do Projeto</h2>
+
+  <div class="card">
+    <p style="margin-bottom: 0.75rem;">Abaixo, a organização completa das pastas e arquivos do repositório:</p>
+    <pre>corte-de-barras/
+├── index.html              ← Esta página (guia do projeto + vídeo)
+├── README.md               ← Documentação principal
+├── requirements.txt        ← Dependências (numpy, pandas, matplotlib, jupyter)
+│
+├── src/                    ← Código-fonte principal
+│   ├── algorithms.py       ← Implementação dos 3 algoritmos
+│   ├── generators.py       ← Geração de tabelas de preço aleatórias
+│   ├── verify.py           ← Verificação de corretude entre algoritmos
+│   └── benchmark.py        ← Medição de tempo e geração de gráficos
+│
+├── notebooks/
+│   └── analise.ipynb       ← Jupyter Notebook com relatório completo
+│
+├── results/
+│   ├── tempos.csv           ← Resultados das medições (n, algoritmo, tempo)
+│   └── graficos/            ← Gráficos PNG gerados
+│       └── comparacao_completa.png
+│
+└── video/
+    └── link.txt             ← Link do YouTube (substituir após upload)</pre>
+  </div>
+
+  <h3>Como Executar</h3>
+  <div class="card">
+    <p>1. Clone o repositório:</p>
+    <pre>git clone https://github.com/DerickBessa/corte-de-barras.git
+cd corte-de-barras</pre>
+    <p>2. Instale as dependências:</p>
+    <pre>pip install -r requirements.txt</pre>
+    <p>3. Verifique a corretude dos algoritmos:</p>
+    <pre>python src/verify.py</pre>
+    <p>4. Execute o benchmark completo:</p>
+    <pre>python src/benchmark.py</pre>
+    <p>5. Abra o notebook para ver o relatório completo:</p>
+    <pre>jupyter notebook notebooks/analise.ipynb</pre>
+  </div>
+
+  <h3>Tecnologias Utilizadas</h3>
+  <table>
+    <tr><th>Ferramenta</th><th>Versão</th><th>Finalidade</th></tr>
+    <tr><td>Python</td><td>3.10+</td><td>Linguagem principal</td></tr>
+    <tr><td>NumPy</td><td>≥1.24</td><td>Geração de tabelas e estatísticas</td></tr>
+    <tr><td>Matplotlib</td><td>≥3.6</td><td>Gráficos comparativos</td></tr>
+    <tr><td>Pandas</td><td>≥1.5</td><td>Organização de resultados em CSV</td></tr>
+    <tr><td>Jupyter</td><td>≥1.0</td><td>Relatório interativo</td></tr>
+    <tr><td>GitHub</td><td>—</td><td>Versionamento e entrega</td></tr>
+  </table>
+</div>
+
+<script>
+function switchTab(event, tabId) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+</script>
+
+<footer style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.85rem; text-align: center;">
+  <p>Projeto de Análise de Algoritmos — IFCE</p>
+  <p>Repositório: <a href="https://github.com/DerickBessa/corte-de-barras" target="_blank">github.com/DerickBessa/corte-de-barras</a></p>
+</footer>
+
+</body>
+</html>
