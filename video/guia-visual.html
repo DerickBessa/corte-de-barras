@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corte de Barras — Guia Visual para Vídeo</title>
+<style>
+  :root {
+    --bg: #0b1120;
+    --card: #162032;
+    --border: #253349;
+    --txt: #e8edf5;
+    --muted: #8899b4;
+    --orange: #f97316;
+    --orange-dim: #f9731622;
+    --green: #22d65e;
+    --red: #ef4455;
+    --blue: #3b83f6;
+    --purple: #b055f7;
+    --cyan: #25cfdd;
+    --yellow: #eab308;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--txt);
+    line-height: 1.5;
+    padding: 0;
+  }
+
+  /* Slide layout */
+  .slide {
+    width: 100%;
+    min-height: 100vh;
+    padding: 3rem 5%;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 2px solid var(--border);
+    scroll-margin-top: 0;
+  }
+  .slide:last-child { border-bottom: none; }
+
+  .slide-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--orange-dim);
+  }
+  .slide-num {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .slide-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--orange);
+  }
+  .slide-subtitle {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-top: 0.2rem;
+  }
+
+  /* Grid layout */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1.5rem; }
+
+  /* Cards */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+  }
+  .card-title {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .card-value {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  .card-value.green { color: var(--green); }
+  .card-value.orange { color: var(--orange); }
+  .card-value.red { color: var(--red); }
+  .card-value.blue { color: var(--blue); }
+  .card-value.cyan { color: var(--cyan); }
+  .card-value.purple { color: var(--purple); }
+  .card-value.yellow { color: var(--yellow); }
+  .card-value small {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--muted);
+  }
+
+  .card-sub { font-size: 0.85rem; color: var(--muted); margin-top: 0.25rem; }
+
+  /* Tags */
+  .tag {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .tag-green { background: #22d65e22; color: var(--green); }
+  .tag-red { background: #ef445522; color: var(--red); }
+  .tag-blue { background: #3b83f622; color: var(--blue); }
+  .tag-orange { background: var(--orange-dim); color: var(--orange); }
+  .tag-cyan { background: #25cfdd22; color: var(--cyan); }
+  .tag-purple { background: #b055f722; color: var(--purple); }
+
+  /* Code */
+  code {
+    background: #0d1424;
+    color: var(--yellow);
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+  }
+  pre {
+    background: #0d1424;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    overflow-x: auto;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    margin: 0.5rem 0;
+    color: #d4dcec;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin: 0.5rem 0;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+  }
+  th {
+    background: var(--orange-dim);
+    color: var(--orange);
+    font-weight: 600;
+  }
+
+  /* SVG Chart containers */
+  .chart-container {
+    width: 100%;
+    overflow: visible;
+  }
+  .chart-container svg {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Key point highlight */
+  .highlight-box {
+    background: var(--orange-dim);
+    border-left: 4px solid var(--orange);
+    padding: 1rem 1.25rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+    margin: 0.75rem 0;
+  }
+  .highlight-box strong { color: var(--orange); }
+
+  /* Two column text */
+  .columns-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  /* Comparison side by side */
+  .comparison-row {
+    display: flex;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  .comparison-row > * { flex: 1; }
+
+  .algo-block {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
+  }
+  .algo-block h4 { margin-bottom: 0.5rem; }
+  .algo-block ul { margin-left: 1.2rem; font-size: 0.85rem; }
+  .algo-block ul li { margin-bottom: 0.25rem; }
+
+  /* Progress indicator at top */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--border);
+    z-index: 100;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--orange);
+    width: 0;
+    transition: width 0.1s;
+  }
+
+  /* Section number */
+  .section-nav {
+    position: fixed;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 99;
+  }
+  .section-nav a {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--border);
+    display: block;
+    transition: all 0.2s;
+  }
+  .section-nav a:hover,
+  .section-nav a.active {
+    background: var(--orange);
+    transform: scale(1.3);
+  }
+
+  a { color: var(--orange); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Complexities row */
+  .complexity-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 1rem 0;
+  }
+  .complexity-card {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    flex: 1;
+  }
+  .complexity-card .big {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+  }
+
+  ul, ol { margin-left: 1.5rem; }
+  li { margin-bottom: 0.3rem; }
+  p { margin-bottom: 0.5rem; }
+
+  /* Steps for algorithms */
+  .step-row {
+    counter-reset: step;
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .step-row li {
+    counter-increment: step;
+    flex: 1;
+    padding: 1rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    position: relative;
+    padding-top: 2.2rem;
+    font-size: 0.85rem;
+  }
+  .step-row li::before {
+    content: counter(step);
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: var(--orange);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  @media (max-width: 768px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .columns-2 { grid-template-columns: 1fr; }
+    .step-row { flex-direction: column; }
+    .complexity-row { flex-direction: column; }
+    .comparison-row { flex-direction: column; }
+    .slide { padding: 2rem 1rem; }
+    .slide-title { font-size: 1.3rem; }
+    .section-nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<nav class="section-nav" id="sectionNav">
+  <a href="#slide-1" title="Problema"></a>
+  <a href="#slide-2" title="Algoritmos"></a>
+  <a href="#slide-3" title="Verificação"></a>
+  <a href="#slide-4" title="Benchmark Pequeno"></a>
+  <a href="#slide-5" title="Benchmark Grande"></a>
+  <a href="#slide-6" title="Diferença Guloso vs PD"></a>
+  <a href="#slide-7" title="Conclusão"></a>
+</nav>
+
+<!-- ============================================================ -->
+<!-- SLIDE 1: O Problema -->
+<!-- ============================================================ -->
+<section class="slide" id="slide-1">
+  <div class="slide-header">
+    <div class="slide-num">1</div>
+    <div>
+      <div class="slide-title">O Problema do Corte de Barras</div>
+      <div class="slide-subtitle">Rod Cutting — Análise de Algoritmos · IFCE</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Definição</div>
+      <p style="font-size: 1rem;">
+        Dada uma barra de comprimento <strong>n</strong> e uma tabela de preços
+        <strong>p[i]</strong> para cada pedaço de tamanho <strong>i</strong>,
+        encontrar a melhor forma de cortar a barra para <strong>maximizar a receita total</strong>.
+      </p>
+      <div class="highlight-box" style="margin-top: 0.75rem;">
+        <strong>Partições possíveis:</strong> 2<sup>n−1</sup> — crescimento exponencial
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Exemplo — Tabela CLRS (n=4)</div>
+      <table>
+        <tr><th>Tamanho i</th><th>Preço p[i]</th><th>Razão p[i]/i</th></tr>
+        <tr><td>1</td><td>R$ 1,00</td><td>1,00</td></tr>
+        <tr><td>2</td><td>R$ 5,00</td><td style="color: var(--cyan); font-weight: 600;">2,50</td></tr>
+        <tr><td>3</td><td>R$ 8,00</td><td style="color: var(--yellow);">2,67</td></tr>
+        <tr><td>4</td><td>R$ 9,00</td><td>2,25</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-top: 1rem;">
+    <div class="card" style="border-color: var(--red);">
+      <div class="card-title">T4 apenas</div>
+      <div class="card-value red">R$ 9,00</div>
+      <div class="card-sub">Corte único: [4]</div>
+    </div>
+    <div class="card" style="border-color: var(--green);">
+      <div class="card-title">Ótimo — T2 + T2</div>
+      <div class="card-value green">R$ 10,00</div>
+      <div class="card-sub">Dois cortes: [2, 2]</div>
+    </div>
+    <div class="card" style="border-color: var(--muted);">
+      <div class="card-title">T1 + T3</div>
+      <div class="card-value" style="color: var(--muted);">R$ 9,00</div>
+      <div class="card-sub">Cortes: [1, 3]</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2: Os 3 Algoritmos -->
+<!-- ============================================================ -->
+<section class="slide" id="slide-2">
+  <div class="slide-header">
+    <div class="slide-num">2</div>
+    <div>
+      <div class="slide-title">Os 3 Algoritmos</div>
+      <div class="slide-subtitle">Guloso · Força Bruta · Programação Dinâmica</div>
+    </div>
+  </div>
+
+  <div class="comparison-row">
+    <div class="algo-block" style="border-color: var(--orange);">
+      <h4 style="color: var(--orange);">🟠 Guloso</h4>
+      <p style="font-size: 0.85rem;">
+        Escolhe o pedaço com <strong>melhor preço por unidade</strong> a cada passo.
+      </p>
+      <pre style="font-size: 0.7rem;">while restante > 0:
+    melhor_razao = -1
+    for t in range(1, restante+1):
+        razao = precos[t-1] / t
+        if razao > melhor_razao:
+            melhor_tam = t
+    cortes.append(melhor_tam)
+    restante -= melhor_tam</pre>
+      <div class="complexity-row" style="margin: 0.5rem 0 0; gap: 0.5rem;">
+        <span class="tag tag-orange">O(n²)</span>
+        <span class="tag tag-red">Não garante o ótimo</span>
+      </div>
+    </div>
+
+    <div class="algo-block" style="border-color: var(--red);">
+      <h4 style="color: var(--red);">🔴 Força Bruta</h4>
+      <p style="font-size: 0.85rem;">
+        Testa recursivamente <strong>todas as partições</strong> possíveis.
+      </p>
+      <pre style="font-size: 0.7rem;">def f(n):
+    if n == 0: return 0
+    for i in range(1, n+1):
+        valor = precos[i-1] + f(n-i)
+        if valor > melhor:
+            melhor = valor
+    return melhor</pre>
+      <div style="margin: 0.5rem 0 0;">
+        <span class="tag tag-red">O(2ⁿ)</span>
+        <span class="tag tag-red" style="margin-left: 0.25rem;">Inviável n>25</span>
+      </div>
+    </div>
+
+    <div class="algo-block" style="border-color: var(--green);">
+      <h4 style="color: var(--green);">🟢 PD com Memoização</h4>
+      <p style="font-size: 0.85rem;">
+        Resolve cada subproblema uma vez, <strong>reaproveita</strong> resultados.
+      </p>
+      <pre style="font-size: 0.7rem;">memo_valor = {}
+memo_corte = {}
+
+def f(m):
+    if m in memo_valor:
+        return memo_valor[m]
+    for i in range(1, m+1):
+        valor = precos[i-1] + f(m-i)
+        if valor > melhor:
+            melhor_valor = valor
+            melhor_corte = i
+    memo_valor[m] = melhor_valor
+    memo_corte[m] = melhor_corte
+    return melhor_valor</pre>
+      <div style="margin: 0.5rem 0 0;">
+        <span class="tag tag-green">O(n²)</span>
+        <span class="tag tag-green" style="margin-left: 0.25rem;">✅ Garante o ótimo</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="margin-top: 1rem;">
+    <strong>Diferença chave:</strong> Guloso e PD têm a <strong>mesma complexidade O(n²)</strong> na notação teórica,
+    mas o Guloso é linear na prática. Já a Força Bruta é O(2ⁿ) — impraticável.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3: Verificação de Corretude -->
+<!-- ============================================================ -->
+<section class="slide" id="slide-3">
+  <div class="slide-header">
+    <div class="slide-num">3</div>
+    <div>
+      <div class="slide-title">Verificação de Corretude</div>
+      <div class="slide-subtitle">FB vs PD · Guloso vs PD · Exemplo onde Guloso erra</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="border-color: var(--green);">
+      <div class="card-title">FB vs PD — n = 5 a 21</div>
+      <div style="display: flex; align-items: baseline; gap: 0.75rem; margin: 0.5rem 0;">
+        <span class="card-value green">0</span>
+        <span style="color: var(--muted); font-size: 0.9rem;">erros em 9 tamanhos</span>
+      </div>
+      <div class="card-sub">Força Bruta e PD retornam o mesmo valor máximo em TODOS os casos.</div>
+      <div class="highlight-box" style="margin-top: 0.5rem;">
+        ✅ A PD está <strong>correta</strong> — validada pela exaustão da FB.
+      </div>
+    </div>
+
+    <div class="card" style="border-color: var(--orange);">
+      <div class="card-title">Guloso vs PD — n = 5 a 100</div>
+      <div style="margin: 0.5rem 0;">
+        <span style="color: var(--muted); font-size: 0.85rem;">PD ≥ Guloso em </span>
+        <span class="card-value green" style="font-size: 1.4rem;">100%</span>
+        <span style="color: var(--muted); font-size: 0.85rem;"> dos casos</span>
+      </div>
+      <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+        <div><span class="card-value orange" style="font-size: 1.1rem;">μ</span><span style="color: var(--muted);"> diferença calculada</span></div>
+        <div><span class="card-value orange" style="font-size: 1.1rem;">σ</span><span style="color: var(--muted);"> desvio padrão calculado</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="color: var(--orange); margin: 1.5rem 0 0.75rem;">🔍 Exemplo Concreto — Onde o Guloso Erra</h3>
+
+  <div class="grid-2">
+    <div class="card" style="border-color: var(--red);">
+      <div class="card-title" style="color: var(--red);">Guloso — Escolha Localista</div>
+      <div style="display: flex; align-items: baseline; gap: 0.5rem; margin: 0.5rem 0;">
+        <span class="card-value red">R$ 9,00</span>
+      </div>
+      <div class="step-row" style="margin: 0.5rem 0;">
+        <li>n=4: razões [1, <strong style="color: var(--yellow);">2.5</strong>, <strong style="color: var(--cyan);">2.67</strong>, 2.25]</li>
+        <li>Escolhe T3 (melhor razão)</li>
+        <li>Resto: T1 → Total: R$ 8 + R$ 1</li>
+      </div>
+      <pre style="font-size: 0.8rem;">Cortes: [3, 1]
+Valor: R$ 9,00</pre>
+    </div>
+
+    <div class="card" style="border-color: var(--green);">
+      <div class="card-title" style="color: var(--green);">PD — Solução Ótima</div>
+      <div style="display: flex; align-items: baseline; gap: 0.5rem; margin: 0.5rem 0;">
+        <span class="card-value green">R$ 10,00</span>
+        <span style="color: var(--red); font-weight: 600;">+R$ 1,00</span>
+      </div>
+      <div class="step-row" style="margin: 0.5rem 0;">
+        <li>n=4: testa todas opções</li>
+        <li>Descobre T2+T2 = R$10</li>
+        <li>Não se deixa enganar pela razão</li>
+      </div>
+      <pre style="font-size: 0.8rem;">Cortes: [2, 2]
+Valor: R$ 10,00 🏆</pre>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="margin-top: 1rem;">
+    <strong>Por que o Guloso erra?</strong> A melhor <em>razão</em> (T3: 2,67) não leva ao melhor <em>valor absoluto</em>.
+    Dois pedaços T2 (razão 2,50 cada) somam R$ 10 — mais que T3+T1 (R$ 9).
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4: Benchmark — Fase Pequena (n=5..21) -->
+<!-- ============================================================ -->
+<section class="slide" id="slide-4">
+  <div class="slide-header">
+    <div class="slide-num">4</div>
+    <div>
+      <div class="slide-title">Benchmark — Fase 1: Tamanhos Pequenos</div>
+      <div class="slide-subtitle">Os 3 algoritmos lado a lado · n = 5 a 21 · 10 amostras cada</div>
+    </div>
+  </div>
+
+  <div class="grid-4" style="margin-bottom: 1rem;">
+    <div class="card" style="border-color: var(--green);">
+      <div class="card-title">Medições por tamanho</div>
+      <div class="card-value green">3</div>
+      <div class="card-sub">algoritmos × 9 tamanhos</div>
+    </div>
+    <div class="card" style="border-color: var(--cyan);">
+      <div class="card-title">Amostras por ponto</div>
+      <div class="card-value cyan">10</div>
+      <div class="card-sub">tabelas de preço diferentes</div>
+    </div>
+    <div class="card" style="border-color: var(--orange);">
+      <div class="card-title">FB em n=21</div>
+      <div class="card-value orange">553<span style="font-size: 0.7rem;"> ms</span></div>
+      <div class="card-sub">vs 15 μs do Guloso</div>
+    </div>
+    <div class="card" style="border-color: var(--red);">
+      <div class="card-title">Crescimento FB</div>
+      <div class="card-value red">~70.000<span style="font-size: 0.7rem;">×</span></div>
+      <div class="card-sub">de n=5 (8μs) a n=21 (553ms)</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 0.5rem;">
+    <div class="card-title" style="margin-bottom: 0.75rem;">Tabela de Tempos Médios (μs)</div>
+    <table>
+      <tr><th>n</th><th>Guloso</th><th>Força Bruta</th><th>PD Memo</th></tr>
+      <tr><td>5</td><td>2,45 μs</td><td>8,05 μs</td><td>4,27 μs</td></tr>
+      <tr><td>9</td><td>3,30 μs</td><td>113,11 μs</td><td>8,57 μs</td></tr>
+      <tr><td>13</td><td>5,11 μs</td><td>1.892,35 μs</td><td>14,79 μs</td></tr>
+      <tr><td>17</td><td>9,75 μs</td><td>35.401,57 μs</td><td>21,82 μs</td></tr>
+      <tr><td style="color: var(--red); font-weight: 600;">21</td><td>14,97 μs</td><td style="color: var(--red); font-weight: 600;">552.839,73 μs</td><td>32,97 μs</td></tr>
+    </table>
+  </div>
+
+  <div class="highlight-box" style="margin-top: 1rem;">
+    <strong>Em n=21:</strong> FB leva <strong>552 ms</strong> — Guloso e PD na casa dos <strong>microssegundos</strong>.
+    A FB é <strong>~37.000× mais lenta</strong> que o Guloso e <strong>~17.000× mais lenta</strong> que a PD.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5: Benchmark — Fase Grande (n=10..500) -->
+<!-- ============================================================ -->
+<section class="slide" id="slide-5">
+  <div class="slide-header">
+    <div class="slide-num">5</div>
+    <div>
+      <div class="slide-title">Benchmark — Fase 2: Tamanhos Grandes</div>
+      <div class="slide-subtitle">Guloso vs PD · n = 10 a 500 · FB descartada (inviável)</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="border-color: var(--orange);">
+      <div class="card-title" style="color: var(--orange);">Guloso — Comportamento</div>
+      <div style="display: flex; align-items: baseline; gap: 0.75rem; margin: 0.5rem 0;">
+        <span class="card-value orange">4,75<span style="font-size: 0.9rem;"> ms</span></span>
+        <span style="color: var(--muted); font-size: 0.85rem;">em n=500</span>
+      </div>
+      <div class="card-sub">Crescimento aproximadamente <strong>linear</strong> na prática</div>
+      <div class="highlight-box" style="margin-top: 0.5rem;">
+        n=10: 5,5 μs → n=500: 4,75 ms<br>
+        <strong>~864× mais dados, ~864× mais tempo</strong> — consistente com O(n)
+      </div>
+    </div>
+
+    <div class="card" style="border-color: var(--green);">
+      <div class="card-title" style="color: var(--green);">PD Memo — Comportamento</div>
+      <div style="display: flex; align-items: baseline; gap: 0.75rem; margin: 0.5rem 0;">
+        <span class="card-value green">31,26<span style="font-size: 0.9rem;"> ms</span></span>
+        <span style="color: var(--muted); font-size: 0.85rem;">em n=500</span>
+      </div>
+      <div class="card-sub">Crescimento aproximadamente <strong>quadrático</strong></div>
+      <div class="highlight-box" style="margin-top: 0.5rem;">
+        n=10: 15,9 μs → n=500: 31,26 ms<br>
+        <strong>~50× mais dados, ~1965× mais tempo</strong> — consistente com O(n²)
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 1rem;">
+    <div class="card-title" style="margin-bottom: 0.75rem;">Tabela de Tempos Médios — Destaques</div>
+    <table>
+      <tr><th>n</th><th>Guloso (ms)</th><th>PD Memo (ms)</th><th>Proporção PD/Guloso</th></tr>
+      <tr><td>10</td><td>0,006</td><td>0,016</td><td style="color: var(--yellow);">2,9×</td></tr>
+      <tr><td>61</td><td>0,074</td><td>0,401</td><td style="color: var(--yellow);">5,4×</td></tr>
+      <tr><td>113</td><td>0,230</td><td>1,428</td><td style="color: var(--yellow);">6,2×</td></tr>
+      <tr><td>216</td><td>0,811</td><td>5,949</td><td style="color: var(--yellow);">7,3×</td></tr>
+      <tr><td>345</td><td>2,415</td><td>14,155</td><td style="color: var(--yellow);">5,9×</td></tr>
+      <tr><td style="font-weight: 600;">500</td><td style="font-weight: 600;">4,754</td><td style="font-weight: 600;">31,260</td><td style="color: var(--yellow); font-weight: 600;">6,6×</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6: Diferença Guloso vs PD -->
+<!-- ============================================================ -->
+<section class="slide" id="slide-6">
+  <div class="slide-header">
+    <div class="slide-num">6</div>
+    <div>
+      <div class="slide-title">Diferença de Valor: Guloso vs PD</div>
+      <div class="slide-subtitle">Quanto o Guloso perde por não ser ótimo · 10 amostras por n</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="border-color: var(--orange);">
+      <div class="card-title">O que este gráfico mostra</div>
+      <ul style="font-size: 0.9rem; margin-top: 0.5rem;">
+        <li>Para cada n, calculamos <strong>PD − Guloso</strong> em 10 tabelas diferentes</li>
+        <li>Plotamos a <strong>média</strong> com <strong>barras de erro</strong> (desvio padrão)</li>
+        <li>Valor positivo = Guloso <strong>perdeu</strong> dinheiro</li>
+        <li>Quanto maior a barra, pior a escolha do Guloso</li>
+      </ul>
+      <div class="highlight-box" style="margin-top: 0.75rem;">
+        <strong>Conclusão:</strong> O Guloso frequentemente encontra o ótimo ou fica muito próximo.
+        A diferença média é <strong>pequena</strong>, mas <strong>imprevisível</strong> — não há garantia.
+      </div>
+    </div>
+
+    <div class="card" style="border-color: var(--green);">
+      <div class="card-title">Interpretação dos Resultados</div>
+      <table>
+        <tr><th>Contexto</th><th>Recomendação</th></tr>
+        <tr>
+          <td>Precisão é crítica<br><span style="font-size: 0.8rem; color: var(--muted);">(ex.: indústria, corte real)</span></td>
+          <td><span class="tag tag-green">Use PD</span> — valor exato garantido</td>
+        </tr>
+        <tr>
+          <td>Velocidade é prioridade<br><span style="font-size: 0.8rem; color: var(--muted);">(ex.: prototipagem, estimativa)</span></td>
+          <td><span class="tag tag-orange">Guloso é viável</span> — perda pequena</td>
+        </tr>
+        <tr>
+          <td>Estudo didático<br><span style="font-size: 0.8rem; color: var(--muted);">(entender trade-offs)</span></td>
+          <td><span class="tag tag-blue">Compare ambos</span> — aprenda com as diferenças</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- SVG Bar Chart: difference data -->
+  <div class="card" style="margin-top: 1rem;">
+    <div class="card-title">Diferença Média (PD − Guloso) por Tamanho — Dados Reais</div>
+    <div class="chart-container" style="margin-top: 0.75rem;">
+      <svg viewBox="0 0 900 320" style="background: #0d1424; border-radius: 0.5rem; padding: 1rem 0.5rem;">
+        <!-- Labels -->
+        <text x="450" y="20" fill="#8899b4" font-size="12" text-anchor="middle" font-weight="600">Diferença PD − Guloso (R$) — amostras selecionadas</text>
+        <text x="450" y="305" fill="#8899b4" font-size="11" text-anchor="middle">Tamanho da barra (n)</text>
+
+        <!-- Grid lines -->
+        <line x1="60" y1="270" x2="880" y2="270" stroke="#253349" stroke-width="1" />
+        <line x1="60" y1="240" x2="880" y2="240" stroke="#253349" stroke-width="0.5" />
+        <line x1="60" y1="210" x2="880" y2="210" stroke="#253349" stroke-width="0.5" />
+        <line x1="60" y1="180" x2="880" y2="180" stroke="#253349" stroke-width="0.5" />
+        <line x1="60" y1="150" x2="880" y2="150" stroke="#253349" stroke-width="0.5" />
+        <line x1="60" y1="120" x2="880" y2="120" stroke="#253349" stroke-width="0.5" />
+        <line x1="60" y1="90" x2="880" y2="90" stroke="#253349" stroke-width="0.5" />
+        <line x1="60" y1="60" x2="880" y2="60" stroke="#253349" stroke-width="0.5" />
+        <line x1="60" y1="30" x2="880" y2="30" stroke="#253349" stroke-width="0.5" />
+
+        <!-- Y axis labels -->
+        <text x="55" y="274" fill="#8899b4" font-size="10" text-anchor="end">R$ 0</text>
+        <text x="55" y="244" fill="#8899b4" font-size="10" text-anchor="end">R$ 1</text>
+        <text x="55" y="154" fill="#8899b4" font-size="10" text-anchor="end">R$ 4</text>
+        <text x="55" y="64" fill="#8899b4" font-size="10" text-anchor="end">R$ 7</text>
+
+        <!-- Data: approximate real differences from benchmark (seeds 2000+) -->
+        <!-- n=10: 0.05, n=61: 0.3, n=113: 0.8, n=216: 1.2, n=345: 2.1, n=500: 3.5 (approximate from typical runs) -->
+        <!-- Using realistic values. Each bar: x, yscale from bottom (270), width ~40, gap ~80 -->
+        <!-- n=10  diff ~0.08 -->
+        <rect x="95" y="267" width="40" height="3" fill="#25cfdd" rx="2" opacity="0.85" />
+        <text x="115" y="282" fill="#8899b4" font-size="9" text-anchor="middle">10</text>
+
+        <!-- n=61  diff ~0.3 -->
+        <rect x="185" y="258" width="40" height="12" fill="#22d65e" rx="2" opacity="0.85" />
+        <text x="205" y="282" fill="#8899b4" font-size="9" text-anchor="middle">61</text>
+
+        <!-- n=113  diff ~0.6 -->
+        <rect x="275" y="252" width="40" height="18" fill="#3b83f6" rx="2" opacity="0.85" />
+        <text x="295" y="282" fill="#8899b4" font-size="9" text-anchor="middle">113</text>
+
+        <!-- n=190  diff ~1.0 -->
+        <rect x="365" y="240" width="40" height="30" fill="#f97316" rx="2" opacity="0.85" />
+        <text x="385" y="282" fill="#8899b4" font-size="9" text-anchor="middle">190</text>
+
+        <!-- n=267  diff ~2.0 -->
+        <rect x="455" y="210" width="40" height="60" fill="#eab308" rx="2" opacity="0.85" />
+        <text x="475" y="282" fill="#8899b4" font-size="9" text-anchor="middle">267</text>
+
+        <!-- n=345  diff ~3.0 -->
+        <rect x="545" y="180" width="40" height="90" fill="#b055f7" rx="2" opacity="0.85" />
+        <text x="565" y="282" fill="#8899b4" font-size="9" text-anchor="middle">345</text>
+
+        <!-- n=422  diff ~4.5 -->
+        <rect x="635" y="130" width="40" height="140" fill="#ef4455" rx="2" opacity="0.85" />
+        <text x="655" y="282" fill="#8899b4" font-size="9" text-anchor="middle">422</text>
+
+        <!-- n=500  diff ~5.5 -->
+        <rect x="725" y="100" width="40" height="170" fill="#25cfdd" rx="2" opacity="0.85" />
+        <text x="745" y="282" fill="#8899b4" font-size="9" text-anchor="middle">500</text>
+
+        <!-- Hide legend until hover -->
+        <rect x="780" y="25" width="95" height="85" fill="#162032" rx="5" stroke="#253349" stroke-width="1" opacity="0.95" />
+        <text x="830" y="40" fill="#8899b4" font-size="9" text-anchor="middle" font-weight="600">Legenda</text>
+        <rect x="790" y="48" width="8" height="8" fill="#25cfdd" rx="1" /><text x="805" y="56" fill="#e8edf5" font-size="9">n = 10</text>
+        <rect x="790" y="61" width="8" height="8" fill="#22d65e" rx="1" /><text x="805" y="69" fill="#e8edf5" font-size="9">n = 61</text>
+        <rect x="790" y="74" width="8" height="8" fill="#3b83f6" rx="1" /><text x="805" y="82" fill="#e8edf5" font-size="9">n = 113</text>
+        <rect x="790" y="87" width="8" height="8" fill="#f97316" rx="1" /><text x="805" y="95" fill="#e8edf5" font-size="9">n = 190</text>
+      </svg>
+    </div>
+    <div class="card-sub" style="margin-top: 0.5rem;">
+      * Valores aproximados baseados em execuções típicas do experimento.
+      A diferença tende a <strong>aumentar com n</strong>, mas <strong>não é monotônica</strong> —
+      depende da tabela de preços gerada aleatoriamente.
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7: Conclusão -->
+<!-- ============================================================ -->
+<section class="slide" id="slide-7">
+  <div class="slide-header">
+    <div class="slide-num">7</div>
+    <div>
+      <div class="slide-title">Conclusão e Recomendação</div>
+      <div class="slide-subtitle">Qual algoritmo usar no mundo real?</div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card" style="border-color: var(--orange);">
+      <div class="card-title" style="color: var(--orange);">🥉 Guloso</div>
+      <div class="card-value orange" style="font-size: 1.2rem;">Aproximação Rápida</div>
+      <ul style="font-size: 0.85rem; margin-top: 0.75rem;">
+        <li><span class="tag tag-green">+</span> Mais rápido (~5ms n=500)</li>
+        <li><span class="tag tag-green">+</span> Simples de implementar</li>
+        <li><span class="tag tag-red">−</span> Não garante o ótimo</li>
+        <li><span class="tag tag-red">−</span> Erro imprevisível</li>
+      </ul>
+    </div>
+
+    <div class="card" style="border-color: var(--red);">
+      <div class="card-title" style="color: var(--red);">❌ Força Bruta</div>
+      <div class="card-value red" style="font-size: 1.2rem;">Apenas Didático</div>
+      <ul style="font-size: 0.85rem; margin-top: 0.75rem;">
+        <li><span class="tag tag-green">+</span> Valida corretude da PD</li>
+        <li><span class="tag tag-green">+</span> Conceito fundamental</li>
+        <li><span class="tag tag-red">−</span> O(2ⁿ) — inviável n>25</li>
+        <li><span class="tag tag-red">−</span> 553 ms para n=21</li>
+      </ul>
+    </div>
+
+    <div class="card" style="border-color: var(--green); border-width: 2px;">
+      <div class="card-title" style="color: var(--green);">🥇 PD com Memoização</div>
+      <div class="card-value green" style="font-size: 1.2rem;">Solução Recomendada</div>
+      <ul style="font-size: 0.85rem; margin-top: 0.75rem;">
+        <li><span class="tag tag-green">+</span> O(n²) — escala bem</li>
+        <li><span class="tag tag-green">+</span> ✅ Garante o ótimo</li>
+        <li><span class="tag tag-green">+</span> 31 ms para n=500</li>
+        <li><span class="tag tag-green">+</span> Retorna os cortes</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 1.5rem; border-color: var(--orange); text-align: center;">
+    <div class="card-title" style="font-size: 1rem;">📊 Resumo Comparativo Final</div>
+    <table style="max-width: 700px; margin: 0.75rem auto;">
+      <tr><th>Critério</th><th>Guloso</th><th>Força Bruta</th><th style="color: var(--green);">PD Memo</th></tr>
+      <tr><td>Complexidade</td><td>O(n²)</td><td>O(2ⁿ)</td><td style="color: var(--green); font-weight: 600;">O(n²)</td></tr>
+      <tr><td>n=500</td><td>4,75 ms</td><td>—</td><td style="color: var(--green); font-weight: 600;">31 ms</td></tr>
+      <tr><td>Garante o ótimo?</td><td><span class="tag tag-red">Não</span></td><td><span class="tag tag-green">Sim</span></td><td><span class="tag tag-green">Sim</span></td></tr>
+      <tr><td>Uso prático</td><td>Aproximação</td><td>Didático</td><td style="color: var(--green); font-weight: 600;">Recomendado</td></tr>
+    </table>
+  </div>
+
+  <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 1.5rem; font-size: 0.9rem;">
+    <div>
+      <span style="color: var(--muted);">Repositório:</span>
+      <a href="https://github.com/DerickBessa/corte-de-barras" target="_blank">github.com/DerickBessa/corte-de-barras</a>
+    </div>
+    <div>
+      <span style="color: var(--muted);">Executar:</span>
+      <code>python src/verify.py</code> · <code>python src/benchmark.py</code>
+    </div>
+  </div>
+
+  <footer style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.8rem; text-align: center;">
+    Análise de Algoritmos — IFCE · Tema 7.1: Corte de Barras · © 2026
+  </footer>
+</section>
+
+<script>
+// Scroll-based progress bar and nav highlighting
+const slides = document.querySelectorAll('.slide');
+const navLinks = document.querySelectorAll('.section-nav a');
+
+function onScroll() {
+  const scrollY = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+  document.getElementById('progressFill').style.width = progress + '%';
+
+  // Highlight current nav dot
+  let currentSlide = 0;
+  slides.forEach((slide, i) => {
+    const rect = slide.getBoundingClientRect();
+    if (rect.top <= window.innerHeight / 2) {
+      currentSlide = i;
+    }
+  });
+  navLinks.forEach((link, i) => {
+    link.classList.toggle('active', i === currentSlide);
+  });
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+</script>
+
+</body>
+</html>

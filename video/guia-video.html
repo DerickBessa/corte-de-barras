@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corte de Barras — Guia para o Vídeo</title>
+<style>
+  :root {
+    --bg: #0b1120;
+    --card: #151d33;
+    --card-hl: #1a2540;
+    --border: #1e2d4a;
+    --txt: #e8edf5;
+    --muted: #7b8db5;
+    --orange: #f97316;
+    --orange-dim: #f9731622;
+    --green: #22d65e;
+    --green-dim: #22d65e22;
+    --red: #ef4444;
+    --red-dim: #ef444422;
+    --blue: #3b82f6;
+    --blue-dim: #3b82f622;
+    --purple: #a855f7;
+    --gold: #fbbf24;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--txt);
+    line-height: 1.5;
+    font-size: 18px;
+  }
+
+  .slide {
+    min-height: 100vh;
+    padding: 2rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-bottom: 3px solid var(--orange-dim);
+    position: relative;
+  }
+  .slide:last-child { border-bottom: none; }
+
+  .time-tag {
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    background: var(--orange);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-family: monospace;
+  }
+
+  h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--orange), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--orange);
+  }
+  h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--gold);
+  }
+  h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: var(--muted);
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 1rem 0;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+    margin: 1rem 0;
+  }
+  .grid-4 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.5rem;
+  }
+  .card-hl {
+    background: var(--card-hl);
+    border: 1px solid var(--orange-dim);
+    border-radius: 1rem;
+    padding: 1.5rem;
+  }
+
+  .big-number {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .big-number.orange { color: var(--orange); }
+  .big-number.green { color: var(--green); }
+  .big-number.red { color: var(--red); }
+  .big-number.blue { color: var(--blue); }
+  .big-number.gold { color: var(--gold); }
+
+  .metric-label {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 0.25rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+  }
+  th {
+    background: var(--orange-dim);
+    color: var(--orange);
+    font-weight: 600;
+  }
+  td { background: var(--card); }
+
+  .tag {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .tag-green { background: var(--green-dim); color: var(--green); }
+  .tag-red { background: var(--red-dim); color: var(--red); }
+  .tag-blue { background: var(--blue-dim); color: var(--blue); }
+  .tag-orange { background: var(--orange-dim); color: var(--orange); }
+
+  .falas {
+    background: var(--card-hl);
+    border-left: 4px solid var(--orange);
+    padding: 1rem 1.25rem;
+    border-radius: 0 0.75rem 0.75rem 0;
+    margin: 0.75rem 0;
+    font-style: italic;
+    color: var(--muted);
+  }
+  .falas strong { color: var(--txt); font-style: normal; }
+
+  .na-tela {
+    background: var(--card);
+    border: 1px dashed var(--border);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .na-tela strong { color: var(--gold); }
+
+  .bar-container { margin: 0.5rem 0; }
+  .bar-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.4rem; }
+  .bar-label { width: 6rem; font-size: 0.85rem; color: var(--muted); text-align: right; }
+  .bar-track { flex: 1; height: 1.5rem; background: var(--bg); border-radius: 0.25rem; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 0.25rem; display: flex; align-items: center; padding-left: 0.5rem; font-size: 0.75rem; font-weight: 600; color: #000; }
+  .bar-fill.guloso { background: linear-gradient(90deg, var(--orange), var(--gold)); }
+  .bar-fill.fb { background: linear-gradient(90deg, var(--red), #f87171); }
+  .bar-fill.pd { background: linear-gradient(90deg, var(--blue), #60a5fa); }
+
+  .step-list { list-style: none; counter-reset: step; }
+  .step-list li {
+    counter-increment: step;
+    padding: 0.5rem 0.5rem 0.5rem 2.5rem;
+    position: relative;
+    margin-bottom: 0.3rem;
+  }
+  .step-list li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    background: var(--orange-dim);
+    color: var(--orange);
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .code-block {
+    background: #0a0f1e;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+    color: #a8c0e0;
+  }
+  .code-block .hl { color: var(--orange); }
+  .code-block .cm { color: #5a6a8a; }
+
+  .rank-card {
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    position: relative;
+  }
+  .rank-card .rank {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+  }
+  .rank-card .name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .rank-1 { background: linear-gradient(135deg, #22d65e22, #22d65e11); border: 2px solid var(--green); }
+  .rank-1 .rank { color: var(--green); }
+  .rank-2 { background: linear-gradient(135deg, #f9731622, #f9731611); border: 2px solid var(--orange); }
+  .rank-2 .rank { color: var(--orange); }
+  .rank-3 { background: linear-gradient(135deg, #ef444422, #ef444411); border: 2px solid var(--red); }
+  .rank-3 .rank { color: var(--red); }
+
+  .ok { color: var(--green); font-weight: 700; }
+  .warn { color: var(--orange); font-weight: 700; }
+  .fail { color: var(--red); font-weight: 700; }
+
+  .flex-center { display: flex; align-items: center; justify-content: center; }
+  .gap-1 { gap: 1rem; }
+  .mt-1 { margin-top: 1rem; }
+  .mb-1 { margin-bottom: 1rem; }
+  .text-center { text-align: center; }
+  .d-block { display: block; }
+
+  @media (max-width: 768px) {
+    body { font-size: 14px; }
+    .slide { padding: 1.5rem; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .big-number { font-size: 2.5rem; }
+  }
+
+  .prog-bar {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+  .prog-dot {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--border);
+    transition: background 0.3s;
+    cursor: pointer;
+  }
+  .prog-dot.active { background: var(--orange); }
+
+  .checklist {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+  }
+  .checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.75rem;
+    background: var(--card);
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+  }
+  .checklist-item .box {
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 2px solid var(--border);
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== SLIDE 1: Capa ===== -->
+<div class="slide" id="s0">
+  <div class="time-tag">0:00</div>
+  <div class="text-center" style="max-width: 800px; margin: 0 auto;">
+    <h1 style="font-size: 3.5rem;">Corte de Barras</h1>
+    <p style="font-size: 1.4rem; color: var(--muted); margin-bottom: 1.5rem;">Análise Comparativa de Algoritmos</p>
+    <p style="font-size: 1.1rem; color: var(--muted);">Disciplina de Análise de Algoritmos — IFCE</p>
+    <p style="font-size: 1.1rem; color: var(--muted); margin-bottom: 2rem;">Tema 7.1 — Rod Cutting</p>
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <div class="card" style="text-align: center; min-width: 140px;">
+        <div class="big-number orange">3</div>
+        <div class="metric-label">Algoritmos Implementados</div>
+      </div>
+      <div class="card" style="text-align: center; min-width: 140px;">
+        <div class="big-number green">100%</div>
+        <div class="metric-label">Corretude Verificada</div>
+      </div>
+      <div class="card" style="text-align: center; min-width: 140px;">
+        <div class="big-number blue">n=500</div>
+        <div class="metric-label">Maior Escala Testada</div>
+      </div>
+    </div>
+    <p style="margin-top: 2rem; color: var(--muted); font-size: 0.95rem;">
+      Repositório: <strong style="color: var(--orange);">github.com/DerickBessa/corte-de-barras</strong>
+    </p>
+    <div class="falas" style="margin-top: 1.5rem;">
+      "Olá! Meu nome é [seu nome] e este é o experimento de Corte de Barras.<br>
+      Implementamos 3 algoritmos, verificamos a corretude e medimos os tempos de execução."
+    </div>
+    <div class="na-tela" style="margin-top: 0.75rem;">
+      <strong>Na tela:</strong> Repositório no GitHub (estrutura) + README.md
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 2: O Problema ===== -->
+<div class="slide" id="s1">
+  <div class="time-tag">1:00</div>
+  <h2>O Problema</h2>
+  <div class="grid-2">
+    <div>
+      <div class="card-hl">
+        <h3>Definição</h3>
+        <p style="font-size: 1.1rem;">
+          Dada uma barra de aço de comprimento <strong>n</strong> e uma tabela de preços 
+          <strong>p[i]</strong> para cada pedaço de tamanho <strong>i</strong>, 
+          queremos cortar a barra para <strong>maximizar a receita total</strong>.
+        </p>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <h4>Exemplo — Tabela CLRS (n=4)</h4>
+        <table>
+          <tr><th>Tamanho (i)</th><th>Preço (p[i])</th><th>Razão p/i</th></tr>
+          <tr><td>1</td><td>R$ 1</td><td>1,00</td></tr>
+          <tr><td>2</td><td>R$ 5</td><td style="color: var(--gold); font-weight: 700;">2,50</td></tr>
+          <tr><td>3</td><td>R$ 8</td><td>2,67</td></tr>
+          <tr><td>4</td><td>R$ 9</td><td>2,25</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-top: 0.5rem;">
+    <div class="card text-center">
+      <div class="big-number gold">2^(n-1)</div>
+      <div class="metric-label">Partições possíveis para n=4</div>
+    </div>
+    <div class="card text-center">
+      <div style="font-size: 1.5rem; font-weight: 800; color: var(--green);">T2+T2</div>
+      <div style="font-size: 2rem; font-weight: 800; color: var(--green);">R$ 10</div>
+      <div class="metric-label">Solução ótima</div>
+    </div>
+    <div class="card text-center">
+      <div style="font-size: 1.5rem; font-weight: 800; color: var(--muted);">T4</div>
+      <div style="font-size: 2rem; font-weight: 800; color: var(--muted);">R$ 9</div>
+      <div class="metric-label">Sem cortes</div>
+    </div>
+  </div>
+
+  <div style="margin-top: 0.75rem; font-size: 1rem; color: var(--muted);">
+    Partições possíveis para n=4: T4 (R$9), T1+T3 (R$9), T3+T1 (R$9), T2+T2 (R$10), T1+T1+T2 (R$7), T1+T2+T1 (R$7), T2+T1+T1 (R$7), T1+T1+T1+T1 (R$4)
+  </div>
+
+  <div class="falas">
+    <strong>Fala:</strong> "Temos uma barra de comprimento n e uma tabela de preços. Queremos maximizar a receita. O número de partições cresce exponencialmente: 2^(n-1)."
+  </div>
+  <div class="na-tela">
+    <strong>Na tela:</strong> Definição formal + tabela CLRS n=4 + partições possíveis + destaque para crescimento exponencial
+  </div>
+</div>
+
+<!-- ===== SLIDE 3: Algoritmo Guloso ===== -->
+<div class="slide" id="s2a">
+  <div class="time-tag">2:00</div>
+  <h2>3.1 — Guloso <span class="tag tag-orange">O(n²) — Não garante ótimo</span></h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Como funciona</h3>
+      <p>A cada passo, olha o tamanho restante da barra e escolhe o pedaço com o <strong>melhor preço por unidade de tamanho</strong>.</p>
+      <div class="code-block">
+        <span class="cm"># Exemplo n=4, precos=[1,5,8,9]</span>
+        razao[1] = 1/1 = <span class="hl">1.0</span><br>
+        razao[2] = 5/2 = <span class="hl">2.5</span><br>
+        razao[3] = 8/3 ≈ <span class="hl">2.67</span> ← escolhe T3<br>
+        razao[4] = 9/4 = <span class="hl">2.25</span><br>
+        resto = 1 → escolhe T1<br>
+        <span class="fail">Total = R$ 9</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Erro do Guloso</h3>
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <div class="text-center" style="flex: 1;">
+          <div class="tag tag-orange" style="font-size: 1rem;">Guloso</div>
+          <div class="big-number" style="color: var(--orange);">R$ 9</div>
+        </div>
+        <div style="font-size: 2rem; color: var(--muted);">×</div>
+        <div class="text-center" style="flex: 1;">
+          <div class="tag tag-green" style="font-size: 1rem;">Ótimo (PD)</div>
+          <div class="big-number green">R$ 10</div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 0.5rem; color: var(--red); font-weight: 700; font-size: 1.1rem;">
+        Diferença: R$ 1 (10% menor)
+      </div>
+      <div class="bar-container" style="margin-top: 0.75rem;">
+        <div class="bar-row">
+          <div class="bar-label">Guloso</div>
+          <div class="bar-track"><div class="bar-fill guloso" style="width: 90%;">R$ 9</div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">PD (ótimo)</div>
+          <div class="bar-track"><div class="bar-fill pd" style="width: 100%;">R$ 10</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="code-block">
+    <span class="cm"># Pseudocódigo</span><br>
+    <strong>enquanto</strong> restante &gt; 0:<br>
+    &nbsp;&nbsp;para t = 1 <strong>até</strong> restante:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;razao = precos[t-1] / t<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># escolhe o de maior razão</span><br>
+    &nbsp;&nbsp;cortes.append(melhor_tam)<br>
+    &nbsp;&nbsp;restante -= melhor_tam
+  </div>
+  <div class="falas">
+    <strong>Fala:</strong> "O Guloso escolhe o pedaço com melhor preço por unidade. Rápido (O(n²) teórico, linear na prática), mas <strong>não garante o ótimo</strong> — decisões locais podem levar a um resultado pior."
+  </div>
+  <div class="na-tela">
+    <strong>Na tela:</strong> Código do <code>corte_guloso()</code> — destacar loop + cálculo de razão + tag ⚠ Não garante o ótimo
+  </div>
+</div>
+
+<!-- ===== SLIDE 4: Força Bruta ===== -->
+<div class="slide" id="s2b">
+  <div class="time-tag">2:45</div>
+  <h2>3.2 — Força Bruta <span class="tag tag-red">O(2ⁿ) — Inviável para n &gt; 25</span></h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Como funciona</h3>
+      <p>Testa recursivamente <strong>todas as formas possíveis</strong> de cortar a barra.</p>
+      <div class="code-block">
+        <span class="cm"># recursão para cada i de 1 a n</span><br>
+        <strong>para</strong> i = 1 <strong>até</strong> n:<br>
+        &nbsp;&nbsp;v_resto, c_resto = <span class="hl">corte_forca_bruta(n - i)</span><br>
+        &nbsp;&nbsp;valor = precos[i-1] + v_resto<br>
+        &nbsp;&nbsp;<span class="cm"># guarda o melhor</span>
+      </div>
+    </div>
+    <div>
+      <div class="card text-center">
+        <h3>Crescimento do número de chamadas</h3>
+        <div class="big-number red">2<sup>n</sup></div>
+        <div class="metric-label">Chamadas recursivas</div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem;">
+        <div class="card text-center">
+          <div style="font-size: 1.3rem; font-weight: 700; color: var(--muted);">n=20</div>
+          <div style="color: var(--gold); font-weight: 600;">~500 mil</div>
+          <div class="metric-label">combinações</div>
+        </div>
+        <div class="card text-center">
+          <div style="font-size: 1.3rem; font-weight: 700; color: var(--muted);">n=30</div>
+          <div style="color: var(--red); font-weight: 600;">&gt; 500 milhões</div>
+          <div class="metric-label">combinações</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 1rem;">Tempo real para n=5 a 21</h3>
+  <table>
+    <tr><th>n</th><th>Guloso</th><th>Força Bruta</th><th>PD Memo</th></tr>
+    <tr><td>5</td><td>2,45 μs</td><td style="color: var(--muted);">8,05 μs</td><td>4,27 μs</td></tr>
+    <tr><td>9</td><td>3,30 μs</td><td style="color: var(--gold);">113 μs</td><td>8,57 μs</td></tr>
+    <tr><td>13</td><td>5,11 μs</td><td style="color: var(--orange);">1,89 ms</td><td>14,79 μs</td></tr>
+    <tr><td>17</td><td>9,75 μs</td><td style="color: var(--red);">35,40 ms</td><td>21,82 μs</td></tr>
+    <tr><td><strong>21</strong></td><td>14,97 μs</td><td style="color: var(--red); font-weight: 700; font-size: 1.1rem;">552,84 ms</td><td>32,97 μs</td></tr>
+  </table>
+
+  <div class="falas">
+    <strong>Fala:</strong> "Para n=21, a FB já leva <strong>mais de meio segundo</strong> enquanto os outros estão em microssegundos — uma diferença de <strong>37.000×</strong>. Usamos a FB apenas como <strong>referencial de corretude</strong> para validar a PD."
+  </div>
+  <div class="na-tela">
+    <strong>Na tela:</strong> Código da recursão + tag 🔴 O(2ⁿ) + tabela de tempos n=5 a 21
+  </div>
+</div>
+
+<!-- ===== SLIDE 5: PD com Memoização ===== -->
+<div class="slide" id="s2c">
+  <div class="time-tag">3:30</div>
+  <h2>3.3 — PD com Memoização <span class="tag tag-green">O(n²) — Solução Recomendada</span></h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Como funciona</h3>
+      <p>Cada subproblema é resolvido <strong>uma única vez</strong> e o resultado é guardado em dicionários para reutilização.</p>
+      <div class="code-block">
+        memo_valor = {}   <span class="cm"># guarda valor máximo</span><br>
+        memo_corte = {}   <span class="cm"># guarda primeiro corte</span><br><br>
+        <strong>def</strong> f(m):<br>
+        &nbsp;&nbsp;<strong>se</strong> m == 0: <strong>retorne</strong> 0<br>
+        &nbsp;&nbsp;<strong>se</strong> m <strong>em</strong> memo_valor: <strong>retorne</strong> memo_valor[m]<br>
+        &nbsp;&nbsp;<span class="cm"># testa todos os cortes possíveis</span><br>
+        &nbsp;&nbsp;<span class="cm"># guarda o melhor em memo_valor[m]</span><br><br>
+        <span class="cm"># Reconstrução dos cortes:</span><br>
+        <strong>enquanto</strong> resto &gt; 0:<br>
+        &nbsp;&nbsp;c = <span class="hl">memo_corte[resto]</span><br>
+        &nbsp;&nbsp;cortes.append(c)<br>
+        &nbsp;&nbsp;resto -= c
+      </div>
+    </div>
+    <div>
+      <div class="card text-center">
+        <h3>Escalabilidade</h3>
+        <div style="display: flex; gap: 1rem; justify-content: center; align-items: center; margin: 0.5rem 0;">
+          <div>
+            <div class="big-number green">O(n²)</div>
+            <div class="metric-label">Complexidade</div>
+          </div>
+          <div style="font-size: 3rem; color: var(--border);">→</div>
+          <div>
+            <div class="big-number blue">n=500</div>
+            <div class="metric-label">em ~31 ms</div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-top: 0.5rem;">
+        <h3>Vantagens</h3>
+        <ul style="margin-left: 1.25rem;">
+          <li><span class="ok">✓</span> Garante o valor ótimo</li>
+          <li><span class="ok">✓</span> Complexidade polinomial</li>
+          <li><span class="ok">✓</span> Escala para n &gt; 500</li>
+          <li><span class="ok">✓</span> Retorna a lista de cortes</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="grid-3" style="margin-top: 0.5rem;">
+    <div class="card text-center">
+      <div class="big-number">n=21</div>
+      <div class="big-number" style="font-size: 2rem; color: var(--blue);">32,97 μs</div>
+      <div class="metric-label">PD em n=21</div>
+    </div>
+    <div class="card text-center">
+      <div class="big-number">n=100</div>
+      <div class="big-number" style="font-size: 2rem; color: var(--blue);">~1,4 ms</div>
+      <div class="metric-label">PD em n=100</div>
+    </div>
+    <div class="card text-center">
+      <div class="big-number">n=500</div>
+      <div class="big-number" style="font-size: 2rem; color: var(--blue);">31,26 ms</div>
+      <div class="metric-label">PD em n=500</div>
+    </div>
+  </div>
+  <div class="falas">
+    <strong>Fala:</strong> "PD com memoização resolve cada subproblema uma única vez. O(n²), garante o ótimo. Para n=500, leva apenas 31 ms — a melhor escolha para uso real."
+  </div>
+  <div class="na-tela">
+    <strong>Na tela:</strong> Código com destaque para dicionários memo_valor/memo_corte + ilustração da reconstrução + tag ✅ O(n²)
+  </div>
+</div>
+
+<!-- ===== SLIDE 6: Geração e Verificação ===== -->
+<div class="slide" id="s3">
+  <div class="time-tag">5:00</div>
+  <h2>Geração de Dados e Verificação</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Geração de Tabelas</h3>
+      <p>Tabelas lineares [1, 2, ..., n] com ruído uniforme entre <strong>-0.5 e 1.5</strong>, garantindo preço mínimo de <strong>0.5× o tamanho</strong>.</p>
+      <div class="code-block">
+        <span class="cm"># src/generators.py</span><br>
+        base = [1, 2, ..., n]<br>
+        ruido = uniforme(-0.5, 1.5, n)<br>
+        precos = max(0.5 * (i+1), base[i] + ruido[i])
+      </div>
+    </div>
+    <div class="card">
+      <h3>Verificação FB vs PD (n=5 a 21)</h3>
+      <div class="text-center" style="margin: 1rem 0;">
+        <div class="big-number green">0</div>
+        <div class="metric-label">Total de erros — 100% de corretude</div>
+      </div>
+      <div class="tag tag-green" style="font-size: 1rem;">✓ Todos os valores coincidem</div>
+    </div>
+  </div>
+  <div class="grid-2" style="margin-top: 0.5rem;">
+    <div class="card">
+      <h3>Verificação Guloso vs PD (n=5 a 100)</h3>
+      <p>PD sempre maior ou igual ao Guloso. Diferença média e desvio padrão calculados.</p>
+      <table style="margin-top: 0.5rem;">
+        <tr><th>Métrica</th><th>Resultado</th></tr>
+        <tr><td>PD ≥ Guloso?</td><td><span class="ok">Sempre</span></td></tr>
+        <tr><td>Corretude FB vs PD</td><td><span class="ok">100%</span></td></tr>
+      </table>
+    </div>
+    <div class="card-hl">
+      <h3>Exemplo n=4 (tabela CLRS)</h3>
+      <table>
+        <tr><th>Tam.</th><th>Preço</th><th>Razão</th></tr>
+        <tr><td>1</td><td>R$ 1</td><td>1,00</td></tr>
+        <tr><td>2</td><td>R$ 5</td><td><strong>2,50</strong></td></tr>
+        <tr><td>3</td><td>R$ 8</td><td>2,67</td></tr>
+        <tr><td>4</td><td>R$ 9</td><td>2,25</td></tr>
+      </table>
+      <div style="margin-top: 0.75rem;">
+        <span class="tag tag-orange">Guloso: T3+T1 = R$ 9</span>
+        <span class="tag tag-green" style="margin-left: 0.5rem;">PD: T2+T2 = R$ 10</span>
+      </div>
+    </div>
+  </div>
+  <div class="falas">
+    <strong>Fala:</strong> "A verificação FB vs PD mostrou zero erros — a PD está correta. O Guloso perde em média alguns reais: um preço pequeno pela rapidez, mas inaceitável quando a precisão é crítica."
+  </div>
+  <div class="na-tela">
+    <strong>Na tela:</strong> Saída do <code>python src/verify.py</code> + destaque "Total de erros: 0" + exemplo n=4 com escolhas
+  </div>
+</div>
+
+<!-- ===== SLIDE 7: Benchmark e Gráficos ===== -->
+<div class="slide" id="s4">
+  <div class="time-tag">6:30</div>
+  <h2>Benchmark e Gráficos</h2>
+  <div class="card" style="margin-bottom: 0.75rem;">
+    <p style="font-size: 1rem;">
+      <strong>Metodologia:</strong> 10 tabelas de preço diferentes para cada tamanho de barra, 
+      execução em todas as 10 entradas, cálculo da <strong>média</strong> e <strong>desvio padrão</strong>.
+    </p>
+  </div>
+
+  <h3>Fase 1 — Tamanhos pequenos (n=5 a 21) — os 3 algoritmos</h3>
+  <table>
+    <tr><th>n</th><th>Guloso</th><th>Força Bruta</th><th>PD Memo</th></tr>
+    <tr><td>5</td><td>2,45 μs</td><td>8,05 μs</td><td>4,27 μs</td></tr>
+    <tr><td>11</td><td>4,03 μs</td><td>447,48 μs</td><td>10,30 μs</td></tr>
+    <tr><td>17</td><td>9,75 μs</td><td>35,40 ms</td><td>21,82 μs</td></tr>
+    <tr><td><strong>21</strong></td><td><strong>14,97 μs</strong></td><td><strong style="color: var(--red);">552,84 ms</strong></td><td><strong>32,97 μs</strong></td></tr>
+  </table>
+
+  <h3 style="margin-top: 1rem;">Fase 2 — Tamanhos grandes (n=10 a 500) — Guloso vs PD</h3>
+  <table>
+    <tr><th>n</th><th>Guloso</th><th>PD Memo</th><th>Proporção</th></tr>
+    <tr><td>61</td><td>74 μs</td><td>401 μs</td><td>PD ~5,4×</td></tr>
+    <tr><td>216</td><td>811 μs</td><td>5,95 ms</td><td>PD ~7,3×</td></tr>
+    <tr><td>345</td><td>2,41 ms</td><td>14,16 ms</td><td>PD ~5,9×</td></tr>
+    <tr><td><strong>500</strong></td><td><strong>4,75 ms</strong></td><td><strong>31,26 ms</strong></td><td><strong>PD ~6,6×</strong></td></tr>
+  </table>
+
+  <div class="grid-3" style="margin-top: 0.75rem;">
+    <div class="card text-center">
+      <div class="big-number orange">552,84 ms</div>
+      <div class="metric-label">FB em n=21</div>
+    </div>
+    <div class="card text-center">
+      <div class="big-number blue">31,26 ms</div>
+      <div class="metric-label">PD em n=500</div>
+    </div>
+    <div class="card text-center">
+      <div class="big-number" style="color: var(--gold);">4,75 ms</div>
+      <div class="metric-label">Guloso em n=500</div>
+    </div>
+  </div>
+
+  <div class="falas">
+    <strong>Fala:</strong> "Guloso cresce linearmente na prática (~5ms em n=500), PD cresce quadraticamente (~31ms), e FB explode exponencialmente (~553ms já em n=21)."
+  </div>
+  <div class="na-tela">
+    <strong>Na tela:</strong> Gráfico <code>comparacao_completa.png</code> (3 painéis) + tabela do CSV + apontar crescimento exponencial e diferença de inclinação
+  </div>
+</div>
+
+<!-- ===== SLIDE 8: Diferença Guloso vs PD ===== -->
+<div class="slide" id="s4b">
+  <div class="time-tag">8:00</div>
+  <h2>Gráfico — Quanto o Guloso Perde</h2>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Diferença de Valor: PD − Guloso</h3>
+      <p style="color: var(--muted); margin-bottom: 0.75rem;">Barras mostrando a diferença em reais para cada tamanho. Quanto maior a barra, pior a escolha do Guloso.</p>
+      <div class="na-tela" style="text-align: center; padding: 2rem;">
+        <span style="font-size: 1rem;">📊 [Gráfico 3 — Barras de diferença]</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Resumo da Comparação</h3>
+      <table>
+        <tr><th>Métrica</th><th>Guloso</th><th>PD</th></tr>
+        <tr><td>Precisão</td><td><span class="warn">Aproximada</span></td><td><span class="ok">Exata</span></td></tr>
+        <tr><td>Complexidade</td><td>O(n²)</td><td>O(n²)</td></tr>
+        <tr><td>Tempo n=500</td><td>4,75 ms</td><td>31,26 ms</td></tr>
+        <tr><td>Garante ótimo?</td><td><span class="fail">Não</span></td><td><span class="ok">Sim</span></td></tr>
+        <tr><td>Retorna cortes?</td><td><span class="ok">Sim</span></td><td><span class="ok">Sim</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card-hl" style="margin-top: 0.5rem;">
+    <h3>Interpretação</h3>
+    <p>
+      O Guloso leva vantagem na velocidade (~6,6× mais rápido em n=500), mas <strong>perde em precisão</strong>. 
+      Em aplicações reais onde cada centavo importa (ex: indústria siderúrgica), a PD é a escolha certa. 
+      O Guloso pode ser usado quando uma <strong>resposta rápida e aproximada</strong> é suficiente.
+    </p>
+  </div>
+
+  <div class="falas">
+    <strong>Fala:</strong> "As barras mostram quanto o Guloso perde. Em alguns casos a diferença é pequena, em outros é significativa. O preço pela rapidez varia conforme a tabela de preços."
+  </div>
+  <div class="na-tela">
+    <strong>Na tela:</strong> Gráfico de diferença (painel 3) + destaque para os casos onde a barra é maior
+  </div>
+</div>
+
+<!-- ===== SLIDE 9: Conclusão ===== -->
+<div class="slide" id="s5">
+  <div class="time-tag">9:00</div>
+  <h2>Conclusão</h2>
+
+  <div class="grid-3" style="margin-bottom: 1rem;">
+    <div class="rank-card rank-1">
+      <div class="rank">#1</div>
+      <div class="name">PD com Memoização</div>
+      <div class="tag tag-green" style="margin-bottom: 0.5rem;">RECOMENDADO</div>
+      <div style="font-size: 0.9rem; color: var(--muted);">
+        Solução exata · O(n²)<br>
+        n=500 em 31 ms<br>
+        Retorna cortes
+      </div>
+    </div>
+    <div class="rank-card rank-2">
+      <div class="rank">#2</div>
+      <div class="name">Guloso</div>
+      <div class="tag tag-orange" style="margin-bottom: 0.5rem;">APROXIMAÇÃO</div>
+      <div style="font-size: 0.9rem; color: var(--muted);">
+        Mais rápido · ~O(n)<br>
+        n=500 em 4,75 ms<br>
+        Não garante o ótimo
+      </div>
+    </div>
+    <div class="rank-card rank-3">
+      <div class="rank">#3</div>
+      <div class="name">Força Bruta</div>
+      <div class="tag tag-red" style="margin-bottom: 0.5rem;">DIDÁTICO</div>
+      <div style="font-size: 0.9rem; color: var(--muted);">
+        O(2ⁿ) · Inviável n&gt;25<br>
+        n=21 em 553 ms<br>
+        Apenas referencial
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4>Pontos-Chave</h4>
+      <ol class="step-list">
+        <li><strong>PD com memoização</strong> é a melhor abordagem: solução exata, O(n²), escala para n > 500</li>
+        <li><strong>Guloso</strong> é adequado para aproximações rápidas quando velocidade é prioridade</li>
+        <li><strong>Força Bruta</strong> é um conceito didático importante, mas inviável na prática</li>
+        <li><strong>Verificação cruzada</strong> (FB vs PD) validou a corretude da implementação</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h4>Como Executar</h4>
+      <div class="code-block" style="font-size: 0.85rem;">
+        <span class="cm"># Verificar corretude</span><br>
+        python src/verify.py<br><br>
+        <span class="cm"># Benchmark completo</span><br>
+        python src/benchmark.py<br><br>
+        <span class="cm"># Relatório interativo</span><br>
+        jupyter notebook notebooks/analise.ipynb
+      </div>
+      <p style="margin-top: 0.75rem; color: var(--muted); font-size: 0.9rem;">
+        Repositório: <strong style="color: var(--orange);">github.com/DerickBessa/corte-de-barras</strong>
+      </p>
+    </div>
+  </div>
+
+  <div class="falas" style="margin-top: 1rem;">
+    <strong>Fala:</strong> "Para qualquer aplicação real de Corte de Barras, use PD com memoização. É o melhor custo-benefício entre precisão e desempenho. Obrigado!"
+  </div>
+  <div class="na-tela">
+    <strong>Na tela:</strong> Cards de conclusão com ranking dos 3 algoritmos + comandos + link do repositório + agradecimentos
+  </div>
+</div>
+
+<!-- ===== SLIDE 10: Checklist de Gravação ===== -->
+<div class="slide" id="s6">
+  <div class="time-tag">Checklist</div>
+  <h2>Checklist de Gravação</h2>
+  <p style="color: var(--muted); margin-bottom: 1rem;">Marque cada item após gravar a respectiva parte.</p>
+  <div class="checklist">
+    <div class="checklist-item"><div class="box"></div> Mostrar repositório no GitHub (estrutura)</div>
+    <div class="checklist-item"><div class="box"></div> Explicar o problema com exemplo n=4</div>
+    <div class="checklist-item"><div class="box"></div> Mostrar código dos 3 algoritmos</div>
+    <div class="checklist-item"><div class="box"></div> Rodar <code>python src/verify.py</code></div>
+    <div class="checklist-item"><div class="box"></div> Destacar exemplo onde Guloso erra</div>
+    <div class="checklist-item"><div class="box"></div> Rodar <code>python src/benchmark.py</code></div>
+    <div class="checklist-item"><div class="box"></div> Mostrar gráfico comparacao_completa.png</div>
+    <div class="checklist-item"><div class="box"></div> Exibir tabela de tempos do CSV</div>
+    <div class="checklist-item"><div class="box"></div> Apresentar conclusão e recomendação</div>
+    <div class="checklist-item"><div class="box"></div> Colocar link do YouTube em <code>video/link.txt</code></div>
+  </div>
+
+  <div class="card-hl" style="margin-top: 1rem;">
+    <h3>Dados de Apoio</h3>
+    <div class="grid-2">
+      <div>
+        <h4>Complexidades</h4>
+        <table>
+          <tr><th>Algoritmo</th><th>Teórica</th><th>n=21</th><th>n=500</th></tr>
+          <tr><td>Guloso</td><td>O(n²)</td><td>~15 μs</td><td>~4,75 ms</td></tr>
+          <tr><td>Força Bruta</td><td>O(2ⁿ)</td><td>~553 ms</td><td>—</td></tr>
+          <tr><td>PD Memo</td><td>O(n²)</td><td>~33 μs</td><td>~31 ms</td></tr>
+        </table>
+      </div>
+      <div>
+        <h4>Tabela CLRS (n=4)</h4>
+        <table>
+          <tr><th>Tam.</th><th>Preço</th><th>Razão</th></tr>
+          <tr><td>1</td><td>R$ 1</td><td>1,00</td></tr>
+          <tr><td>2</td><td>R$ 5</td><td>2,50</td></tr>
+          <tr><td>3</td><td>R$ 8</td><td>2,67</td></tr>
+          <tr><td>4</td><td>R$ 9</td><td>2,25</td></tr>
+        </table>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--muted);">
+          Guloso: R$ 9 | PD: R$ 10 | Dif: R$ 1 (10%)
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align: center; margin-top: 2rem; color: var(--muted);">
+    <p style="font-size: 1.2rem; font-weight: 600; color: var(--orange);">Boa gravação! 🎬</p>
+    <p style="font-size: 0.85rem;">Após gravar, cole o link do YouTube em <code>video/link.txt</code></p>
+  </div>
+</div>
+
+</body>
+</html>

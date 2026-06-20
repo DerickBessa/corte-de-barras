@@ -1,3 +1,7 @@
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 import numpy as np
 from algorithms import corte_guloso, corte_forca_bruta, corte_pd_memo
 from generators import gerar_tabela_precos, tabela_guloso_erra_n4
